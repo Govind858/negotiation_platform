@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProcureAI: Negotiation Intelligence & Memory Platform</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    code, pre { font-family: 'JetBrains Mono', monospace; }
+    .slide { display: none; }
+    .slide.active { display: flex; }
+    @media print {
+      body { background: white !important; color: black !important; }
+      .slide { display: block !important; page-break-after: always; height: 100vh; padding: 2rem !important; }
+      .no-print { display: none !important; }
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col justify-between overflow-x-hidden select-none">
+
+  <!-- TOP BAR -->
+  <header class="no-print border-b border-slate-800/80 px-8 py-4 flex items-center justify-between bg-slate-900/50 backdrop-blur-md">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 font-bold">
+        ⚡
+      </div>
+      <span class="font-bold tracking-tight text-lg text-white">Procure<span class="text-emerald-400">AI</span></span>
+      <span class="text-xs px-2.5 py-0.5 rounded-full bg-slate-800 text-slate-400 border border-slate-700 ml-2">System Architecture & Pitch Deck</span>
+    </div>
+    <div class="flex items-center gap-4 text-sm text-slate-400">
+      <span id="slideCounter" class="font-mono">1 / 11</span>
+      <button onclick="toggleFullscreen()" class="px-3 py-1.5 rounded-md bg-slate-800 hover:bg-slate-700 text-slate-300 transition text-xs font-medium">⛶ Fullscreen</button>
+      <button onclick="window.print()" class="px-3 py-1.5 rounded-md bg-emerald-600/30 hover:bg-emerald-600/50 text-emerald-300 border border-emerald-500/30 transition text-xs font-medium">🖨️ Export PDF</button>
+    </div>
+  </header>
+
+  <!-- SLIDES CONTAINER -->
+  <main class="flex-1 flex items-center justify-center p-6 md:p-12 max-w-7xl mx-auto w-full">
+
+    <!-- SLIDE 1: COVER -->
+    <section class="slide active flex-col items-center justify-center text-center space-y-6 max-w-4xl py-12">
+      <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-950/80 border border-emerald-500/30 text-emerald-400 text-xs font-semibold uppercase tracking-wider">
+        AI-Powered Manufacturing Procurement
+      </div>
+      <h1 class="text-5xl md:text-7xl font-extrabold tracking-tight text-white leading-tight">
+        Procurement Negotiation Intelligence & <span class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-200">Institutional Memory</span>
+      </h1>
+      <p class="text-lg md:text-xl text-slate-400 max-w-2xl leading-relaxed">
+        Empowering buyers to win raw material negotiations with automated pre-call strategy, zero-cost historical deal benchmarks, and structured feedback loops.
+      </p>
+      <div class="pt-6 flex gap-4">
+        <button onclick="nextSlide()" class="px-6 py-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold transition flex items-center gap-2">
+          Start Presentation →
+        </button>
+      </div>
+    </section>
+
+    <!-- SLIDE 2: THE PROBLEM -->
+    <section class="slide flex-col space-y-8 w-full">
+      <div>
+        <span class="text-emerald-400 font-mono text-xs uppercase tracking-widest font-semibold">01. The Problem</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mt-1">Why Manufacturing Companies Overpay for Materials</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
+          <div class="w-10 h-10 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 text-xl font-bold">1</div>
+          <h3 class="text-lg font-bold text-white">Unprepared Buyers</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">Buyers enter supplier phone calls without knowing their true leverage, hidden weak points, or walkaway boundaries, leading to quick concessions.</p>
+        </div>
+        <div class="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
+          <div class="w-10 h-10 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 text-xl font-bold">2</div>
+          <h3 class="text-lg font-bold text-white">Institutional Amnesia</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">When an experienced procurement manager leaves, years of supplier pricing tactics, concessions, and winning strategies disappear from the company.</p>
+        </div>
+        <div class="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-4">
+          <div class="w-10 h-10 rounded-lg bg-red-500/10 border border-red-500/30 flex items-center justify-center text-red-400 text-xl font-bold">3</div>
+          <h3 class="text-lg font-bold text-white">The New Employee Trap</h3>
+          <p class="text-slate-400 text-sm leading-relaxed">New staff buyers are unaware of historical prices. Suppliers easily charge them 15–20% higher rates for materials previously bought much cheaper.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 3: THE SOLUTION -->
+    <section class="slide flex-col space-y-8 w-full">
+      <div>
+        <span class="text-emerald-400 font-mono text-xs uppercase tracking-widest font-semibold">02. The Solution</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mt-1">An Intelligent Negotiation CRM for Procurement</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-xl bg-gradient-to-b from-slate-900 to-slate-950 border border-emerald-500/30 space-y-3">
+          <div class="text-2xl">🧠</div>
+          <h3 class="text-lg font-bold text-emerald-400">Pre-Call AI Battlecards</h3>
+          <p class="text-slate-300 text-sm leading-relaxed">A 2-minute questionnaire analyzes price gaps, commodity dynamics, and urgency to produce model counter-replies and concession playbooks.</p>
+        </div>
+        <div class="p-6 rounded-xl bg-gradient-to-b from-slate-900 to-slate-950 border border-emerald-500/30 space-y-3">
+          <div class="text-2xl">⚡</div>
+          <h3 class="text-lg font-bold text-emerald-400">Instant Deal Matching</h3>
+          <p class="text-slate-300 text-sm leading-relaxed">Automatically detects if the company bought this item before. Gives new staff the historical golden price and winning advice on day one.</p>
+        </div>
+        <div class="p-6 rounded-xl bg-gradient-to-b from-slate-900 to-slate-950 border border-emerald-500/30 space-y-3">
+          <div class="text-2xl">🔄</div>
+          <h3 class="text-lg font-bold text-emerald-400">Closed-Loop Memory Bank</h3>
+          <p class="text-slate-300 text-sm leading-relaxed">Every Won deal records cost savings and winning tactics; every Lost deal records vendor floor prices and walkaway discipline.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 4: THE 3 CORE FLOWS -->
+    <section class="slide flex-col space-y-8 w-full">
+      <div>
+        <span class="text-emerald-400 font-mono text-xs uppercase tracking-widest font-semibold">03. Domain Engine</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mt-1">The 3 Core Flows That Power the System</h2>
+      </div>
+      <div class="space-y-4">
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 flex items-start gap-4">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center shrink-0">1</div>
+          <div>
+            <h4 class="font-bold text-white">Intake & Pre-Call AI Battlecard</h4>
+            <p class="text-sm text-slate-400 mt-1">5-stage questionnaire capturing specs, scale, urgency, and walkaway boundaries. Gemini 2.0 Flash calculates leverage score (0-100) and predicts supplier objections.</p>
+          </div>
+        </div>
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 flex items-start gap-4">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center shrink-0">2</div>
+          <div>
+            <h4 class="font-bold text-white">The Historical Deal Matching Engine</h4>
+            <p class="text-sm text-slate-400 mt-1">PostgreSQL Trigram (<code class="text-emerald-400">pg_trgm</code>) runs natively in &lt;5ms. Matches material names and grades to surface past winning benchmarks without third-party fees.</p>
+          </div>
+        </div>
+        <div class="p-5 rounded-xl bg-slate-900 border border-slate-800 flex items-start gap-4">
+          <div class="w-8 h-8 rounded-lg bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center shrink-0">3</div>
+          <div>
+            <h4 class="font-bold text-white">Multi-Round Logging & Deal Closeout Feedback</h4>
+            <p class="text-sm text-slate-400 mt-1">Tracks round-by-round commercial counter-offers (Price, Lead time, Terms, MOQ, Notes). Calculates verified financial savings on Won deals and logs vendor risk on Lost deals.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 5: PRE-CALL BATTLECARD UI PREVIEW -->
+    <section class="slide flex-col space-y-6 w-full">
+      <div>
+        <span class="text-emerald-400 font-mono text-xs uppercase tracking-widest font-semibold">04. User Experience</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mt-1">What the Buyer Sees: The Pre-Call Battlecard</h2>
+      </div>
+      <div class="p-6 rounded-2xl bg-slate-900/90 border border-slate-700/80 shadow-2xl space-y-4">
+        <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+          <div>
+            <h3 class="font-bold text-white text-lg">Cold Rolled Stainless Steel Sheet (Grade SS 304)</h3>
+            <span class="text-xs text-slate-400">Order: 5,000 kg • Supplier Initial Quote: $14.50/kg • Target: $12.00/kg</span>
+          </div>
+          <div class="text-right">
+            <span class="text-xs uppercase text-slate-400">Buyer Leverage</span>
+            <div class="text-xl font-bold text-amber-400">42 / 100 <span class="text-xs font-normal text-slate-400">(Moderate)</span></div>
+          </div>
+        </div>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div class="p-4 rounded-lg bg-amber-950/30 border border-amber-500/30 space-y-2">
+            <h4 class="text-amber-400 font-bold text-xs uppercase tracking-wider">⚠️ Critical Weak Points</h4>
+            <ul class="text-xs text-slate-300 space-y-1 list-disc list-inside">
+              <li>Urgent line stoppage deadline weakens your ability to delay orders.</li>
+              <li>No active backup quotes; do not bluff a walkaway without preparation.</li>
+            </ul>
+          </div>
+          <div class="p-4 rounded-lg bg-emerald-950/30 border border-emerald-500/30 space-y-2">
+            <h4 class="text-emerald-400 font-bold text-xs uppercase tracking-wider">💡 Historical Benchmark Found</h4>
+            <p class="text-xs text-slate-300">
+              In March, Rahul bought this from <strong class="text-white">Apex Steel</strong> at <strong class="text-emerald-400">$12.20/kg</strong>.<br>
+              <em>Winning Advice: "Apex drops price by 6% if you offer Net 30 days payment."</em>
+            </p>
+          </div>
+        </div>
+        <div class="p-4 rounded-lg bg-slate-950 border border-slate-800">
+          <h4 class="text-slate-300 font-bold text-xs uppercase tracking-wider mb-1">🎯 Recommended Opening Tactic</h4>
+          <p class="text-xs text-slate-400">Counter at <strong class="text-white">$11.80/kg</strong>. State: <em>"Our company contracted this exact SS304 spec at $12.20 with Apex; given our recurring quarterly commitment, $14.50 is significantly above market."</em></p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 6: TECHNICAL ARCHITECTURE -->
+    <section class="slide flex-col space-y-6 w-full">
+      <div>
+        <span class="text-emerald-400 font-mono text-xs uppercase tracking-widest font-semibold">05. Technology Architecture</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mt-1">Lean, Scalable & High Performance</h2>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <div class="text-xs text-slate-500 font-mono uppercase">Frontend</div>
+          <div class="text-lg font-bold text-white mt-1">React / Next.js</div>
+          <p class="text-xs text-slate-400 mt-2">Tailwind CSS, component wizards, battlecard dashboards.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <div class="text-xs text-slate-500 font-mono uppercase">Backend API</div>
+          <div class="text-lg font-bold text-white mt-1">Node / FastAPI</div>
+          <p class="text-xs text-slate-400 mt-2">Stateless REST API, JWT auth, JSON Schema enforcement.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <div class="text-xs text-slate-500 font-mono uppercase">Database</div>
+          <div class="text-lg font-bold text-emerald-400 mt-1">PostgreSQL 15+</div>
+          <p class="text-xs text-slate-400 mt-2">Native JSONB, <code class="text-emerald-400">pg_trgm</code> fuzzy search, zero external search tools.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <div class="text-xs text-slate-500 font-mono uppercase">AI Strategy</div>
+          <div class="text-lg font-bold text-emerald-400 mt-1">Gemini 2.0 Flash</div>
+          <p class="text-xs text-slate-400 mt-2">Free tier (15 RPM), structured JSON outputs, &lt;1.5s latency.</p>
+        </div>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-900/50 border border-slate-800 flex items-center justify-between text-xs">
+        <span class="text-slate-400 font-mono">Tenant Isolation: Row-Level Security (RLS)</span>
+        <span class="text-slate-400 font-mono">Search Latency: &lt; 5ms</span>
+        <span class="text-slate-400 font-mono">External API Cost: $0.00 / launch</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 7: DATABASE SIMPLICITY -->
+    <section class="slide flex-col space-y-6 w-full">
+      <div>
+        <span class="text-emerald-400 font-mono text-xs uppercase tracking-widest font-semibold">06. Database Design</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mt-1">Just 4 Tables for the Entire Platform</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <h4 class="font-bold text-white text-sm font-mono text-emerald-400">1. organizations</h4>
+          <p class="text-xs text-slate-400 mt-1">Multi-tenant isolation for each manufacturing company.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <h4 class="font-bold text-white text-sm font-mono text-emerald-400">2. users</h4>
+          <p class="text-xs text-slate-400 mt-1">Staff accounts with 4 RBAC roles: Admin, Manager, Negotiator, Viewer.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <h4 class="font-bold text-white text-sm font-mono text-emerald-400">3. invitations</h4>
+          <p class="text-xs text-slate-400 mt-1">Tokenized invite links for frictionless, zero-password staff onboarding.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800">
+          <h4 class="font-bold text-white text-sm font-mono text-emerald-400">4. negotiations (Master Table)</h4>
+          <p class="text-xs text-slate-400 mt-1">Stores intake answers, evolving rounds array, AI strategy, and Won/Lost outcomes in a single living record.</p>
+        </div>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-400">
+        💡 <strong>Key Architecture Choice:</strong> No messy joins across 10 tables. The negotiation document evolves from intake $\to$ rounds $\to$ closure inside one indexed record.
+      </div>
+    </section>
+
+    <!-- SLIDE 8: RBAC & ONBOARDING -->
+    <section class="slide flex-col space-y-6 w-full">
+      <div>
+        <span class="text-emerald-400 font-mono text-xs uppercase tracking-widest font-semibold">07. Security & Governance</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mt-1">Enterprise RBAC & Frictionless Onboarding</h2>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-center">
+          <div class="text-xs font-mono font-bold text-emerald-400 uppercase">Admin</div>
+          <div class="text-sm font-bold text-white mt-1">Executive / VP</div>
+          <p class="text-xs text-slate-400 mt-2">Billing, team settings, user permissions, company savings.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-center">
+          <div class="text-xs font-mono font-bold text-teal-400 uppercase">Manager</div>
+          <div class="text-sm font-bold text-white mt-1">Procurement Lead</div>
+          <p class="text-xs text-slate-400 mt-2">Invites buyers, reviews subordinate strategies, approves ceiling prices.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-center">
+          <div class="text-xs font-mono font-bold text-sky-400 uppercase">Negotiator</div>
+          <div class="text-sm font-bold text-white mt-1">Buyer / Staff</div>
+          <p class="text-xs text-slate-400 mt-2">Runs intake, gets AI advice, logs rounds, marks deals won/lost.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 text-center">
+          <div class="text-xs font-mono font-bold text-slate-400 uppercase">Viewer</div>
+          <div class="text-sm font-bold text-white mt-1">Finance / Auditor</div>
+          <p class="text-xs text-slate-400 mt-2">Read-only historical search, audit trails, vendor scorecards.</p>
+        </div>
+      </div>
+      <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between">
+        <div>
+          <span class="text-white font-bold text-sm">Secure Invite Link Flow:</span>
+          <span class="text-xs text-slate-400 ml-2">Admin generates <code class="text-emerald-400">app.com/join?token=...</code> $\to$ Staff enters name and joins instantly with pre-assigned role.</span>
+        </div>
+        <span class="px-2.5 py-1 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/30 text-xs font-semibold">Zero Friction</span>
+      </div>
+    </section>
+
+    <!-- SLIDE 9: STARTUP ECONOMICS -->
+    <section class="slide flex-col space-y-6 w-full">
+      <div>
+        <span class="text-emerald-400 font-mono text-xs uppercase tracking-widest font-semibold">08. Startup Economics</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mt-1">Engineered for Near-Zero Operating Costs</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+          <span class="text-xs uppercase text-slate-400 font-mono">AI Infrastructure Cost</span>
+          <div class="text-3xl font-extrabold text-emerald-400">$0.00 / mo</div>
+          <p class="text-xs text-slate-400">Google Gemini 2.0 Flash free tier allows up to 15 requests/min. Even at scale, 1,000 negotiations cost only $0.25 total.</p>
+        </div>
+        <div class="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+          <span class="text-xs uppercase text-slate-400 font-mono">Search & Memory Cost</span>
+          <div class="text-3xl font-extrabold text-emerald-400">$0.00 / mo</div>
+          <p class="text-xs text-slate-400">PostgreSQL native Trigram indexing eliminates paid search subscriptions like Pinecone, Algolia, or external vector clusters.</p>
+        </div>
+        <div class="p-6 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+          <span class="text-xs uppercase text-slate-400 font-mono">Gross Margins</span>
+          <div class="text-3xl font-extrabold text-emerald-400">&gt; 95%</div>
+          <p class="text-xs text-slate-400">Because infrastructure is ultra-lightweight, B2B SaaS subscription revenue converts almost entirely into operating profit.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 10: REAL-WORLD IMPACT (ROI) -->
+    <section class="slide flex-col space-y-6 w-full">
+      <div>
+        <span class="text-emerald-400 font-mono text-xs uppercase tracking-widest font-semibold">09. Business Impact</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mt-1">Measurable ROI for Manufacturing Clients</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="p-6 rounded-xl bg-slate-900 border border-emerald-500/20 text-center space-y-2">
+          <div class="text-4xl font-black text-white">4–12%</div>
+          <div class="text-sm font-bold text-emerald-400">Direct Cost Reduction</div>
+          <p class="text-xs text-slate-400">Average procurement savings achieved by leveraging historical benchmarks and concession trades.</p>
+        </div>
+        <div class="p-6 rounded-xl bg-slate-900 border border-emerald-500/20 text-center space-y-2">
+          <div class="text-4xl font-black text-white">&lt; 1 Day</div>
+          <div class="text-sm font-bold text-emerald-400">Buyer Onboarding Time</div>
+          <p class="text-xs text-slate-400">New employees instantly negotiate with the institutional memory and wisdom of senior executives.</p>
+        </div>
+        <div class="p-6 rounded-xl bg-slate-900 border border-emerald-500/20 text-center space-y-2">
+          <div class="text-4xl font-black text-white">100%</div>
+          <div class="text-sm font-bold text-emerald-400">Walkaway Discipline</div>
+          <p class="text-xs text-slate-400">Stops emotional overspending by enforcing strict walkaway ceiling prices and manager sign-offs.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SLIDE 11: IMPLEMENTATION ROADMAP -->
+    <section class="slide flex-col space-y-6 w-full">
+      <div>
+        <span class="text-emerald-400 font-mono text-xs uppercase tracking-widest font-semibold">10. Delivery Roadmap</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-white mt-1">4-Sprint Execution Plan</h2>
+      </div>
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+          <div class="text-xs font-mono font-bold text-emerald-400">Sprint 1</div>
+          <h4 class="font-bold text-white text-sm">Auth & Multi-Tenancy</h4>
+          <p class="text-xs text-slate-400">PostgreSQL schema, JWT auth, and tokenized invite-link onboarding.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+          <div class="text-xs font-mono font-bold text-emerald-400">Sprint 2</div>
+          <h4 class="font-bold text-white text-sm">Intake & AI Engine</h4>
+          <p class="text-xs text-slate-400">5-stage intake questionnaire & Gemini 2.0 Flash battlecard pipeline.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+          <div class="text-xs font-mono font-bold text-emerald-400">Sprint 3</div>
+          <h4 class="font-bold text-white text-sm">Matching & Rounds</h4>
+          <p class="text-xs text-slate-400">PostgreSQL trigram search & multi-round call logging interface.</p>
+        </div>
+        <div class="p-4 rounded-xl bg-slate-900 border border-slate-800 space-y-2">
+          <div class="text-xs font-mono font-bold text-emerald-400">Sprint 4</div>
+          <h4 class="font-bold text-white text-sm">Closeout & Memory</h4>
+          <p class="text-xs text-slate-400">Won/Lost feedback modals, savings analytics, and price archive explorer.</p>
+        </div>
+      </div>
+      <div class="pt-4 text-center">
+        <span class="text-slate-400 text-sm">Ready to build. Architectural specifications finalized.</span>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- BOTTOM NAVIGATION CONTROLS -->
+  <footer class="no-print border-t border-slate-800/80 px-8 py-4 flex items-center justify-between bg-slate-900/50 backdrop-blur-md">
+    <div class="text-xs text-slate-400 flex items-center gap-2">
+      <span class="kbd px-2 py-1 rounded bg-slate-800 border border-slate-700 text-slate-300 font-mono">←</span>
+      <span class="kbd px-2 py-1 rounded bg-slate-800 border border-slate-700 text-slate-300 font-mono">→</span>
+      <span>Use arrow keys to navigate slides</span>
+    </div>
+    <div class="flex items-center gap-3">
+      <button onclick="prevSlide()" class="px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 transition text-sm font-medium">← Previous</button>
+      <button onclick="nextSlide()" class="px-5 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold transition text-sm">Next Slide →</button>
+    </div>
+  </footer>
+
+  <!-- SCRIPT FOR NAVIGATION -->
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let currentSlide = 0;
+
+    function showSlide(index) {
+      slides.forEach((slide, i) => {
+        slide.classList.toggle('active', i === index);
+      });
+      document.getElementById('slideCounter').textContent = `${index + 1} / ${slides.length}`;
+      currentSlide = index;
+    }
+
+    function nextSlide() {
+      if (currentSlide < slides.length - 1) showSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+      if (currentSlide > 0) showSlide(currentSlide - 1);
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen();
+      } else {
+        if (document.exitFullscreen) document.exitFullscreen();
+      }
+    }
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') nextSlide();
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') prevSlide();
+    });
+  </script>
+</body>
+</html>

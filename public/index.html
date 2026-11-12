@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProcureAI - Negotiation Intelligence & AI Strategy Battlecard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
+          },
+          colors: {
+            brand: {
+              50: '#ecfdf5',
+              400: '#34d399',
+              500: '#10b981',
+              600: '#059669',
+              900: '#064e3b',
+              950: '#022c22'
+            }
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col font-sans antialiased selection:bg-emerald-500 selection:text-slate-950">
+
+  <!-- TOP APP NAVBAR -->
+  <header class="no-print border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-40">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      
+      <!-- Brand & Title -->
+      <div class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-emerald-400 to-teal-600 flex items-center justify-center text-slate-950 font-black text-xl shadow-lg shadow-emerald-500/20">
+          ⚡
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <span class="font-bold text-lg text-white tracking-tight">Procure<span class="text-emerald-400">AI</span></span>
+            <span class="text-[10px] uppercase tracking-wider font-semibold px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">Core Engine</span>
+          </div>
+          <p class="text-xs text-slate-400 hidden sm:block">Pre-Call Negotiation Battlecard & Insights Service</p>
+        </div>
+      </div>
+
+      <!-- Center Presets Selector -->
+      <div class="hidden md:flex items-center gap-1.5 bg-slate-800/80 p-1 rounded-lg border border-slate-700/60 text-xs">
+        <span class="text-slate-400 px-2 font-medium">Scenario:</span>
+        <button onclick="loadScenarioPreset('steel_urgent')" id="preset-btn-steel" class="preset-btn px-2.5 py-1 rounded-md bg-emerald-500/20 text-emerald-300 font-medium transition hover:bg-emerald-500/30">
+          🔩 Steel Sheet (Urgent)
+        </button>
+        <button onclick="loadScenarioPreset('microcontroller_leverage')" id="preset-btn-micro" class="preset-btn px-2.5 py-1 rounded-md text-slate-300 hover:text-white hover:bg-slate-700 transition">
+          ⚙️ Microcontrollers (Vol.)
+        </button>
+        <button onclick="loadScenarioPreset('injection_mold_sole_source')" id="preset-btn-die" class="preset-btn px-2.5 py-1 rounded-md text-slate-300 hover:text-white hover:bg-slate-700 transition">
+          🧪 Die Enclosure (Sole)
+        </button>
+      </div>
+
+      <!-- Right Controls: Status & API Key Settings -->
+      <div class="flex items-center gap-3">
+        <button onclick="openApiKeyModal()" id="apiKeyBadge" class="flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-medium border border-slate-700 bg-slate-800/70 hover:bg-slate-800 text-slate-300 transition">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+          <span id="apiKeyStatusText">Gemini 2.0 / Heuristic</span>
+          <span class="text-slate-500">⚙️</span>
+        </button>
+
+        <a href="#api-docs" onclick="scrollToDocs()" class="hidden sm:inline-flex items-center gap-1 text-xs text-slate-400 hover:text-emerald-400 transition font-mono">
+          <span>POST /api/negotiation/insights</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN DUAL-COLUMN WORKSPACE -->
+  <main class="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 grid grid-cols-1 lg:grid-cols-12 gap-6">
+
+    <!-- LEFT COLUMN: 5-STAGE PROCUREMENT INTAKE FORM (5 cols on lg) -->
+    <div id="form-panel" class="lg:col-span-5 flex flex-col gap-4">
+      <div class="bg-slate-900 border border-slate-800 rounded-2xl shadow-xl p-5 flex flex-col justify-between">
+        
+        <div>
+          <!-- Panel Header -->
+          <div class="flex items-center justify-between pb-4 border-b border-slate-800/80 mb-4">
+            <div>
+              <h2 class="text-base font-bold text-white flex items-center gap-2">
+                <span>📋</span> Procurement Intake Form
+              </h2>
+              <p class="text-xs text-slate-400">19 Parameters to feed the AI Strategy Engine</p>
+            </div>
+            <button onclick="resetForm()" class="text-xs text-slate-400 hover:text-slate-200 transition">
+              Reset Form
+            </button>
+          </div>
+
+          <!-- Mobile Preset Selector -->
+          <div class="md:hidden mb-4">
+            <label class="block text-xs font-semibold text-slate-400 mb-1">Load Demo Preset:</label>
+            <select id="mobile-preset-select" onchange="loadScenarioPreset(this.value)" class="w-full bg-slate-800 border border-slate-700 text-xs rounded-lg p-2 text-white">
+              <option value="steel_urgent">🔩 Steel Sheet (Urgent, No BATNA)</option>
+              <option value="microcontroller_leverage">⚙️ Microcontrollers (High Volume)</option>
+              <option value="injection_mold_sole_source">🧪 Die Enclosure (Sole Source)</option>
+            </select>
+          </div>
+
+          <!-- STAGES ACCORDION / FORM SECTIONS -->
+          <form id="intake-form" onsubmit="handleFormSubmit(event)" class="space-y-4">
+
+            <!-- STAGE 1: Item & Specifications -->
+            <div class="border border-slate-800 rounded-xl p-3.5 bg-slate-950/40 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px] font-bold">1</span>
+                  Item & Technical Specifications
+                </span>
+                <span class="text-[10px] text-slate-500 font-mono">What are you buying?</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                <div class="sm:col-span-2">
+                  <label class="block text-slate-400 font-medium mb-1">Item / Raw Material Name *</label>
+                  <input type="text" id="item_name" required placeholder="e.g., Cold Rolled Steel Sheet"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                </div>
+
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Grade / Technical Spec</label>
+                  <input type="text" id="item_grade_spec" placeholder="e.g., Grade SS 304"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                </div>
+
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Customization Level</label>
+                  <select id="customization_level" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                    <option value="commodity">Off-the-shelf Commodity</option>
+                    <option value="semi_custom">Semi-Custom Modified</option>
+                    <option value="custom_tooling">Custom Tooling / Proprietary</option>
+                  </select>
+                </div>
+
+                <div class="sm:col-span-2">
+                  <label class="block text-slate-400 font-medium mb-1">Quality & Tolerance Criticality</label>
+                  <select id="quality_criticality" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                    <option value="standard">Standard Commercial Tolerance</option>
+                    <option value="high_precision">High-Precision Critical</option>
+                    <option value="zero_defect">Zero-Defect Required (Aero/Medical/Auto)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- STAGE 2: Scale & Quantity -->
+            <div class="border border-slate-800 rounded-xl p-3.5 bg-slate-950/40 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px] font-bold">2</span>
+                  Scale & Volume Leverage
+                </span>
+                <span class="text-[10px] text-slate-500 font-mono">Volume Power</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 text-xs">
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Order Batch Quantity *</label>
+                  <input type="number" id="quantity" required min="1" step="any" placeholder="5000"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                </div>
+
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Unit of Measure</label>
+                  <input type="text" id="unit" placeholder="kg / units / tons"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                </div>
+
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Purchase Frequency</label>
+                  <select id="purchase_frequency" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                    <option value="spot">One-off Spot Purchase</option>
+                    <option value="monthly">Monthly Regular</option>
+                    <option value="quarterly" selected>Quarterly Regular</option>
+                    <option value="annual_contract">Annual Contract Commitment</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Est. Annual Volume</label>
+                  <input type="number" id="estimated_annual_volume" min="1" step="any" placeholder="20000"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                </div>
+
+                <div class="col-span-2">
+                  <label class="block text-slate-400 font-medium mb-1">MOQ Flexibility</label>
+                  <select id="moq_flexibility" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                    <option value="flexible">Flexible if unit price drops significantly</option>
+                    <option value="strict_limit">Strict limit (storage / working capital constraint)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- STAGE 3: Financials & Pricing Boundaries -->
+            <div class="border border-slate-800 rounded-xl p-3.5 bg-slate-950/40 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px] font-bold">3</span>
+                  Financials & Pricing Boundaries
+                </span>
+                <span class="text-[10px] text-slate-500 font-mono">The Numbers</span>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2 text-xs">
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Supplier Quote *</label>
+                  <input type="number" id="supplier_quote_price" required step="0.01" min="0" placeholder="14.50"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition font-mono">
+                </div>
+
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Target Price *</label>
+                  <input type="number" id="target_price" required step="0.01" min="0" placeholder="12.00"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition font-mono">
+                </div>
+
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Walkaway Ceiling</label>
+                  <input type="number" id="walkaway_price" step="0.01" min="0" placeholder="13.50"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition font-mono">
+                </div>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 text-xs">
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Currency</label>
+                  <select id="currency" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                    <option value="USD">USD ($)</option>
+                    <option value="INR">INR (₹)</option>
+                    <option value="EUR">EUR (€)</option>
+                    <option value="GBP">GBP (£)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Payment Terms</label>
+                  <select id="preferred_payment_terms" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                    <option value="net_30">Net 30 Days Credit</option>
+                    <option value="net_60">Net 60 Days Credit</option>
+                    <option value="net_15">Net 15 Days Credit</option>
+                    <option value="split_advance">50% Adv. / 50% Delivery</option>
+                    <option value="advance_100">100% Advance</option>
+                    <option value="lc">Letter of Credit (LC)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- STAGE 4: Urgency & Logistics -->
+            <div class="border border-slate-800 rounded-xl p-3.5 bg-slate-950/40 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px] font-bold">4</span>
+                  Urgency & Delivery Logistics
+                </span>
+                <span class="text-[10px] text-slate-500 font-mono">Vulnerability</span>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2 text-xs">
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Lead Time (Days)</label>
+                  <input type="number" id="required_lead_time_days" min="1" placeholder="14"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                </div>
+
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Urgency Level</label>
+                  <select id="urgency_level" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                    <option value="critical">Critical (Line Stop Risk)</option>
+                    <option value="moderate">Moderate (Buffer Low)</option>
+                    <option value="low">Low (Routine Restock)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Incoterms</label>
+                  <select id="incoterms" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-2.5 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                    <option value="CIF">CIF (Cost, Ins, Freight)</option>
+                    <option value="FOB">FOB (Free on Board)</option>
+                    <option value="DDP">DDP (Door Delivered)</option>
+                    <option value="EXW">EXW (Ex-Works Factory)</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+
+            <!-- STAGE 5: Supplier Context & BATNA -->
+            <div class="border border-slate-800 rounded-xl p-3.5 bg-slate-950/40 space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                  <span class="w-4 h-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[10px] font-bold">5</span>
+                  Supplier Context & BATNA
+                </span>
+                <span class="text-[10px] text-slate-500 font-mono">Counter-Tactics</span>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 text-xs">
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Supplier Name *</label>
+                  <input type="text" id="supplier_name" required placeholder="e.g., Apex Steel Corp"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                </div>
+
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Relationship</label>
+                  <select id="supplier_relationship" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                    <option value="existing_regular">Existing Regular Supplier</option>
+                    <option value="new_supplier">Brand New Supplier</option>
+                    <option value="sole_certified">Sole Certified / Qualified</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Alternate Quotes (BATNA)?</label>
+                  <select id="has_alternatives" class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                    <option value="false">No (Single / Sole source)</option>
+                    <option value="true">Yes (Active backup quotes in hand)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-slate-400 font-medium mb-1">Supplier's Stated Reason</label>
+                  <input type="text" id="supplier_price_reason" placeholder="e.g., Nickel prices increased globally"
+                    class="w-full bg-slate-900 border border-slate-700 rounded-lg px-3 py-2 text-white focus:outline-none focus:border-emerald-500 text-xs transition">
+                </div>
+              </div>
+            </div>
+
+            <!-- SUBMIT BUTTON -->
+            <div class="pt-2">
+              <button type="submit" id="submit-btn" class="w-full py-3.5 px-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-bold rounded-xl text-sm shadow-lg shadow-emerald-500/25 transition flex items-center justify-center gap-2 group">
+                <span id="submit-spinner" class="hidden animate-spin">🌀</span>
+                <span id="submit-icon">⚡</span>
+                <span id="submit-text">Generate AI Pre-Call Battlecard</span>
+                <span class="text-xs font-mono font-normal opacity-70 ml-1 hidden sm:inline">(Ctrl+Enter)</span>
+              </button>
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- RIGHT COLUMN: INTERACTIVE AI BATTLECARD & INSIGHTS (7 cols on lg) -->
+    <div class="lg:col-span-7 flex flex-col gap-4">
+
+      <!-- View Selector Tabs -->
+      <div id="inspector-tabs" class="no-print flex items-center justify-between bg-slate-900 border border-slate-800 rounded-xl p-1.5 text-xs">
+        <div class="flex items-center gap-1">
+          <button onclick="switchTab('battlecard')" id="tab-btn-battlecard" class="tab-btn px-3 py-1.5 rounded-lg bg-emerald-500/20 text-emerald-400 font-medium flex items-center gap-1.5 transition">
+            <span>🎯</span> Pre-Call Battlecard
+          </button>
+          <button onclick="switchTab('json')" id="tab-btn-json" class="tab-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition">
+            <span>📦</span> API Response (JSON)
+          </button>
+          <button onclick="switchTab('curl')" id="tab-btn-curl" class="tab-btn px-3 py-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 transition">
+            <span>💻</span> cURL Command
+          </button>
+        </div>
+        
+        <div class="flex items-center gap-2 pr-2">
+          <button onclick="printBattlecard()" id="print-btn" title="Export as PDF" class="text-slate-400 hover:text-slate-200 transition p-1">
+            🖨️
+          </button>
+          <button onclick="copyFullResponse()" id="copy-all-btn" title="Copy full response" class="text-slate-400 hover:text-slate-200 transition p-1">
+            📋
+          </button>
+        </div>
+      </div>
+
+      <!-- MAIN CONTAINER: TAB 1 - BATTLECARD -->
+      <div id="tab-content-battlecard" class="tab-panel flex-1">
+        
+        <!-- EMPTY / INITIAL STATE PLACEHOLDER -->
+        <div id="empty-state" class="h-full min-h-[540px] bg-slate-900/60 border border-dashed border-slate-800 rounded-2xl flex flex-col items-center justify-center p-8 text-center space-y-4">
+          <div class="w-16 h-16 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 flex items-center justify-center text-3xl text-emerald-400">
+            🎯
+          </div>
+          <div class="max-w-md space-y-2">
+            <h3 class="text-lg font-bold text-white">Pre-Call Negotiation Battlecard Ready</h3>
+            <p class="text-xs text-slate-400 leading-relaxed">
+              Fill in the 19 procurement parameters on the left (or select a scenario preset above) and click <strong class="text-emerald-400">"Generate AI Pre-Call Battlecard"</strong>.
+            </p>
+          </div>
+          <div class="grid grid-cols-2 gap-3 max-w-sm w-full text-left pt-2 text-xs">
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+              <span class="text-emerald-400 font-semibold block mb-1">📊 Buyer Leverage Meter</span>
+              <p class="text-[11px] text-slate-400">0-100 score weighing BATNA, volume, and urgency.</p>
+            </div>
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+              <span class="text-amber-400 font-semibold block mb-1">⚠️ Weakness Radar</span>
+              <p class="text-[11px] text-slate-400">Conceals critical vulnerabilities from the supplier.</p>
+            </div>
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+              <span class="text-teal-400 font-semibold block mb-1">🎯 Opening Move</span>
+              <p class="text-[11px] text-slate-400">Recommended counter-offer & commercial trade.</p>
+            </div>
+            <div class="bg-slate-950/60 p-3 rounded-xl border border-slate-800/80">
+              <span class="text-sky-400 font-semibold block mb-1">🗣️ Word-for-Word Script</span>
+              <p class="text-[11px] text-slate-400">Exact replies to deconstruct supplier excuses.</p>
+            </div>
+          </div>
+          <button onclick="loadScenarioPreset('steel_urgent'); document.getElementById('submit-btn').click();" class="mt-4 px-4 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 text-emerald-400 font-medium text-xs border border-emerald-500/30 transition">
+            ⚡ Run Quick Demo Scenario Now
+          </button>
+        </div>
+
+        <!-- LOADING STATE -->
+        <div id="loading-state" class="hidden h-full min-h-[540px] bg-slate-900 border border-slate-800 rounded-2xl flex flex-col items-center justify-center p-8 text-center space-y-4">
+          <div class="relative w-20 h-20">
+            <div class="absolute inset-0 rounded-full border-4 border-slate-800"></div>
+            <div class="absolute inset-0 rounded-full border-4 border-emerald-400 border-t-transparent animate-spin"></div>
+            <div class="absolute inset-0 flex items-center justify-center text-2xl">⚡</div>
+          </div>
+          <div class="space-y-1">
+            <h3 class="text-base font-bold text-white">Synthesizing Negotiation Intelligence...</h3>
+            <p class="text-xs text-slate-400">Evaluating 19 parameters against procurement benchmarks</p>
+          </div>
+          <div class="w-48 bg-slate-800 h-1.5 rounded-full overflow-hidden">
+            <div class="bg-emerald-400 h-full rounded-full animate-pulse w-3/4"></div>
+          </div>
+        </div>
+
+        <!-- GENERATED BATTLECARD CONTAINER -->
+        <div id="battlecard-container" class="hidden space-y-4">
+
+          <!-- Battlecard Header Card -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl print-card">
+            <div class="flex flex-wrap items-center justify-between gap-3 pb-3 border-b border-slate-800">
+              <div>
+                <div class="flex items-center gap-2">
+                  <span class="text-lg">🎯</span>
+                  <h3 id="card-item-name" class="text-lg font-extrabold text-white">Cold Rolled Steel Sheet</h3>
+                  <span id="card-engine-badge" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
+                    Google Gemini 2.0 Flash
+                  </span>
+                </div>
+                <p id="card-supplier-subtitle" class="text-xs text-slate-400 mt-0.5">
+                  Supplier: Apex Steel Corp (Existing Regular)
+                </p>
+              </div>
+
+              <!-- Execution Time Pill -->
+              <div class="text-right">
+                <span id="card-exec-time" class="text-[11px] font-mono text-slate-400">
+                  ⚡ 142 ms
+                </span>
+              </div>
+            </div>
+
+            <!-- KEY NUMBERS BAR (Quote vs Target vs Walkaway) -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-4 text-xs">
+              <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80">
+                <span class="text-slate-400 text-[10px] uppercase font-semibold block">Supplier Quote</span>
+                <span id="card-quote-price" class="text-base font-extrabold text-rose-400 font-mono mt-0.5 block">$14.50 / kg</span>
+                <span id="card-batch-size" class="text-[10px] text-slate-500 font-mono">5,000 kg</span>
+              </div>
+
+              <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80">
+                <span class="text-slate-400 text-[10px] uppercase font-semibold block">Buyer Target</span>
+                <span id="card-target-price" class="text-base font-extrabold text-emerald-400 font-mono mt-0.5 block">$12.00 / kg</span>
+                <span id="card-gap-pct" class="text-[10px] text-emerald-400 font-mono">17.2% below quote</span>
+              </div>
+
+              <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80">
+                <span class="text-slate-400 text-[10px] uppercase font-semibold block">Walkaway Ceiling</span>
+                <span id="card-walkaway-price" class="text-base font-extrabold text-amber-400 font-mono mt-0.5 block">$13.50 / kg</span>
+                <span class="text-[10px] text-slate-500">Max limit</span>
+              </div>
+
+              <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800/80">
+                <span class="text-slate-400 text-[10px] uppercase font-semibold block">Potential Savings</span>
+                <span id="card-savings" class="text-base font-extrabold text-teal-300 font-mono mt-0.5 block">$12,500</span>
+                <span id="card-annual-savings" class="text-[10px] text-slate-400 font-mono">$50,000 / yr</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- BUYER LEVERAGE SCORE CARD -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl print-card space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                <span>📊</span> Buyer Leverage Assessment
+              </h4>
+              <span id="card-leverage-badge" class="px-2.5 py-1 rounded-full text-xs font-bold border">
+                42 / 100 • Moderate-Low
+              </span>
+            </div>
+
+            <!-- Visual Leverage Bar -->
+            <div>
+              <div class="w-full bg-slate-950 h-3 rounded-full overflow-hidden p-0.5 border border-slate-800">
+                <div id="card-leverage-bar" class="h-full rounded-full transition-all duration-700 bg-amber-500" style="width: 42%;"></div>
+              </div>
+              <div class="flex justify-between text-[10px] text-slate-500 mt-1 font-mono">
+                <span>0 (Supplier Strong)</span>
+                <span>50 (Balanced)</span>
+                <span>100 (Buyer Strong)</span>
+              </div>
+            </div>
+
+            <!-- Leverage Summary Statement -->
+            <p id="card-leverage-summary" class="text-xs text-slate-300 leading-relaxed bg-slate-950/40 p-3 rounded-xl border border-slate-800/60">
+              Moderate-low leverage due to urgent factory deadline and no active backup quotes.
+            </p>
+          </div>
+
+          <!-- HIDDEN WEAK POINTS (NEVER REVEAL ON CALL) -->
+          <div class="bg-slate-900 border border-rose-900/40 rounded-2xl p-5 shadow-xl print-card space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-rose-400 flex items-center gap-1.5">
+                <span>⚠️</span> Weak Points to Hide on Call (Vulnerability Traps)
+              </h4>
+              <span class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-rose-500/20 text-rose-300 border border-rose-500/30">
+                Do Not Disclose
+              </span>
+            </div>
+            
+            <ul id="card-weak-points" class="space-y-2 text-xs text-slate-300">
+              <!-- Dynamically populated -->
+            </ul>
+          </div>
+
+          <!-- RECOMMENDED OPENING MOVE & TRADING CONCESSION -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            
+            <!-- Opening Counter-Offer -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl print-card space-y-2">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-emerald-400 flex items-center gap-1.5">
+                <span>🎯</span> Recommended Opening Counter
+              </h4>
+              <div class="bg-slate-950/70 p-4 rounded-xl border border-slate-800/80 text-center">
+                <span class="text-[11px] text-slate-400 block mb-1">Anchor your initial bid at:</span>
+                <span id="card-opening-offer" class="text-2xl font-black text-emerald-400 font-mono">$11.80 / kg</span>
+              </div>
+              <p class="text-[11px] text-slate-400">Positioned deliberately below target to leave room for strategic concessions.</p>
+            </div>
+
+            <!-- Concession to Trade -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl print-card space-y-2">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-teal-400 flex items-center gap-1.5">
+                <span>🤝</span> Strategic Trading Chip
+              </h4>
+              <div class="bg-slate-950/70 p-3.5 rounded-xl border border-slate-800/80 min-h-[76px] flex items-center">
+                <p id="card-concession" class="text-xs text-slate-200 leading-relaxed font-medium">
+                  Offer Net 15 days payment terms in exchange for dropping unit price to $12.20.
+                </p>
+              </div>
+              <p class="text-[11px] text-slate-400">Give commercial value on non-price terms to secure price concessions.</p>
+            </div>
+
+          </div>
+
+          <!-- PREDICTED SUPPLIER OBJECTION & REBUTTAL SCRIPT -->
+          <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl print-card space-y-3">
+            <div class="flex items-center justify-between">
+              <h4 class="text-xs font-bold uppercase tracking-wider text-sky-400 flex items-center gap-1.5">
+                <span>🗣️</span> Anticipated Supplier Excuse & Live Rebuttal Script
+              </h4>
+              <button onclick="copyScriptToClipboard()" id="copy-script-btn" class="px-2.5 py-1 rounded-lg bg-sky-500/20 hover:bg-sky-500/30 text-sky-300 text-xs font-medium border border-sky-500/30 transition flex items-center gap-1">
+                <span>📋</span> Copy Script
+              </button>
+            </div>
+
+            <!-- Predicted Objection Bubble -->
+            <div class="bg-slate-950/80 rounded-xl p-3.5 border-l-4 border-amber-500 border-slate-800">
+              <span class="text-[10px] uppercase font-bold text-amber-400 tracking-wider block mb-1">
+                Supplier Likely Objection:
+              </span>
+              <p id="card-predicted-question" class="text-xs text-slate-300 italic">
+                "Raw nickel prices jumped 8% this month globally, how can we give you $12.00?"
+              </p>
+            </div>
+
+            <!-- Model Response Script -->
+            <div class="bg-slate-950/80 rounded-xl p-4 border-l-4 border-emerald-500 border-slate-800">
+              <span class="text-[10px] uppercase font-bold text-emerald-400 tracking-wider block mb-1.5">
+                Your Exact Word-for-Word Reply:
+              </span>
+              <p id="card-response-script" class="text-xs sm:text-sm text-slate-100 font-medium leading-relaxed font-sans">
+                "Nickel only accounts for 8% of SS 304 alloy composition; an 8% nickel increase impacts production cost by less than 1%. We are ready to commit to quarterly repeat volume if you meet us at $12.20."
+              </p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- TAB 2: RAW JSON API RESPONSE -->
+      <div id="tab-content-json" class="tab-panel hidden flex-1">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl h-full flex flex-col">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800 text-xs text-slate-400">
+            <span class="font-mono">POST /api/negotiation/insights → 200 OK</span>
+            <button onclick="copyJsonToClipboard()" class="text-emerald-400 hover:text-emerald-300 transition font-medium">
+              Copy JSON
+            </button>
+          </div>
+          <pre id="json-viewer" class="mt-3 p-4 bg-slate-950 rounded-xl font-mono text-xs text-emerald-300 overflow-x-auto flex-1 max-h-[600px]">
+{
+  "notice": "Submit the form to view real-time raw JSON response from the single API endpoint."
+}
+          </pre>
+        </div>
+      </div>
+
+      <!-- TAB 3: cURL TERMINAL COMMAND -->
+      <div id="tab-content-curl" class="tab-panel hidden flex-1">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 shadow-xl h-full flex flex-col space-y-3">
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800 text-xs text-slate-400">
+            <span class="font-mono">Terminal Testing Command</span>
+            <button onclick="copyCurlToClipboard()" class="text-emerald-400 hover:text-emerald-300 transition font-medium">
+              Copy cURL
+            </button>
+          </div>
+          <p class="text-xs text-slate-400">
+            Test the single API endpoint directly from any shell or API client (Postman, Insomnia, Python):
+          </p>
+          <pre id="curl-viewer" class="p-4 bg-slate-950 rounded-xl font-mono text-xs text-teal-300 overflow-x-auto select-all max-h-[500px]">
+curl -X POST http://localhost:3000/api/negotiation/insights \
+  -H "Content-Type: application/json" \
+  -d '{
+    "item_name": "Cold Rolled Steel Sheet",
+    "item_grade_spec": "Grade SS 304",
+    "customization_level": "commodity",
+    "quality_criticality": "high_precision",
+    "quantity": 5000,
+    "unit": "kg",
+    "purchase_frequency": "quarterly",
+    "estimated_annual_volume": 20000,
+    "moq_flexibility": "flexible",
+    "supplier_quote_price": 14.50,
+    "target_price": 12.00,
+    "walkaway_price": 13.50,
+    "currency": "USD",
+    "preferred_payment_terms": "net_30",
+    "required_lead_time_days": 14,
+    "urgency_level": "critical",
+    "incoterms": "CIF",
+    "supplier_name": "Apex Steel Corp",
+    "supplier_relationship": "existing_regular",
+    "has_alternatives": false,
+    "supplier_price_reason": "Nickel prices increased globally"
+  }'
+          </pre>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- API KEY MODAL (Optional Gemini 2.0 Flash Key) -->
+  <div id="apiKeyModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-2xl max-w-md w-full p-6 shadow-2xl space-y-4">
+      <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+        <h3 class="text-base font-bold text-white flex items-center gap-2">
+          <span>🔑</span> AI Provider Configuration
+        </h3>
+        <button onclick="closeApiKeyModal()" class="text-slate-400 hover:text-white transition">✕</button>
+      </div>
+
+      <p class="text-xs text-slate-300 leading-relaxed">
+        ProcureAI features dual-engine intelligence:
+      </p>
+
+      <div class="space-y-2 text-xs">
+        <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+          <span class="text-emerald-400 font-semibold block mb-0.5">1. Google Gemini 2.0 Flash (Live AI)</span>
+          <p class="text-[11px] text-slate-400">Generates real-time reasoning and dynamic scripts from Google's latest multimodal LLM.</p>
+        </div>
+        <div class="p-3 rounded-xl bg-slate-950/60 border border-slate-800">
+          <span class="text-teal-400 font-semibold block mb-0.5">2. Built-in ProcureAI Engine (Offline / Zero-Key)</span>
+          <p class="text-[11px] text-slate-400">If no key is entered, the engine runs instantly using the verified procurement algorithm.</p>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-semibold text-slate-300 mb-1">Enter Google Gemini API Key (Optional):</label>
+        <input type="password" id="apiKeyInput" placeholder="AIzaSy..."
+          class="w-full bg-slate-950 border border-slate-700 rounded-lg px-3 py-2 text-xs text-white font-mono focus:outline-none focus:border-emerald-500 transition">
+        <p class="text-[10px] text-slate-500 mt-1">Saved securely only in your browser session/localStorage.</p>
+      </div>
+
+      <div class="flex items-center justify-end gap-2 pt-2">
+        <button onclick="clearApiKey()" class="px-3 py-1.5 rounded-lg text-xs text-rose-400 hover:bg-rose-500/10 transition">
+          Clear Key
+        </button>
+        <button onclick="saveApiKey()" class="px-4 py-2 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs transition">
+          Save Configuration
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 bg-slate-900 border border-emerald-500/50 text-white px-4 py-2.5 rounded-xl shadow-2xl text-xs flex items-center gap-2">
+    <span id="toast-icon">✓</span>
+    <span id="toast-message">Copied to clipboard!</span>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+/* Custom styles for ProcureAI */
+@layer utilities {
+  .bg-glass {
+    background-color: rgba(15, 23, 42, 0.75);
+    backdrop-filter: blur(12px);
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #090d16;
+}
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #334155;
+}
+
+/* Animations */
+@keyframes pulse-subtle {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.85; transform: scale(1.01); }
+}
+.animate-subtle {
+  animation: pulse-subtle 3s infinite ease-in-out;
+}
+
+/* Print styling for PDF export */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+  .no-print, header, #form-panel, #inspector-tabs, #action-toolbar {
+    display: none !important;
+  }
+  #battlecard-container {
+    display: block !important;
+    width: 100% !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+  .print-card {
+    background: #f8fafc !important;
+    border: 1px solid #cbd5e1 !important;
+    color: #0f172a !important;
+    break-inside: avoid;
+  }
+  .print-text-dark {
+    color: #0f172a !important;
+  }
+}
